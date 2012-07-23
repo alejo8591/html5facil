@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Obteniendo Coordenadas Basicas</title>
+</head>
+<body>
+    <script type="text/javascript">
+    //funcion para obtener los datos necesarios para construir el o"Geolocation object"    
+    function obtainGeolocation(){
+        //obtener la posición actual y llamar a la función  "localitation" cuando tiene éxito
+        window.navigator.geolocation.getCurrentPosition(localitation);
+    }
+    //funcion localitation para mostrar los datos de la consulta
+    function localitation(geo){
+        //En consola nos devuelve el Geoposition object con los datos nuestros
+        console.log(geo);
+    }
+    //llamando la funcion inicial para ver trabajar la API
+    obtainGeolocation();
+    </script>
+</body>
+</html>

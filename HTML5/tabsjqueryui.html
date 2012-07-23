@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+    <script src =./js/jquery-1.7.1.min.js></script>
+    <script src =./js/jquery-ui-1.8.18.custom.min.js></script>
+    <link rel=stylesheet type=text/css href=./css/smoothness/jquery-ui-1.8.18.custom.css />
+    <style type="text/css">
+        li.ui-state-default{ 
+            font-size : 10px;
+        }
+        div.ui-tabs-panel{
+            font-size : 15px;
+            font-family : georgia; 
+            font-style : italic;
+        }
+    </style>
+    
+</head>
+<body>
+    <!-- primer post: html5facil.com/tutoriales/jugando-con-jqueryui-introduccion -->
+    <div id="tabs">
+    <ul>
+        <li><a href="#tab1">Tab 1</a></li>
+        <li><a href="#tab2">Tab 2</a></li>
+        <li><a href="#tab3">Tab 3</a></li>
+        <li><a href="#tab4">Tab 4</a></li>
+    </ul>
+        <div id="tab1">HTML5facil BLog de la comunidad HTML5</div>
+        <div id="tab2">Otro Hola Mundo pero en jQueryUI</div>
+        <div id="tab3">Lorem ipsum</div>
+        <div id="tab4">Contenido pestaña 4</div>
+    </div>
+    <script> $("#tabs").tabs (); </script>
+    <!-- segundo post: html5facil.com/tutoriales/jugando-con-jqueryui-introduccion -->
+    <script>
+        // Añadiendo Tabs de forma dinamica con el metodo tabs("action", paramenter) add
+        $("#tabs").tabs({
+            }).tabs("add", "#tab5", "Tab 5");
+        $("<i>Añadiendo Tabs dinamicos</i>").appendTo("#tab5");
+        //Añadiendo contenido a un tab mediante AJAX 
+        $("#tabs").tabs({
+            // Uitilizando el metodo tabs("action", parameter) load en el tab '0'
+            }).tabs("url",0, "./lab.php").tabs("load", 0);
+        // Añadiendo informacion al tab con el metodo tabs(options) y option.load
+        $("#tabs").tabs({
+            fx : { opacity : "toggle" },
+            add: function(event, tab){
+                $(tab.panel).load("./lab.php");
+            }
+        }).tabs("add", "#tab6", "Tab 6");
+        // Transmitiendo información al servidor
+        $("#tabs").tabs({
+            ajaxOptions : {data: {name: "Alejandro", nickname: "alejo8591"}}
+        }).tabs("add", "#tab7", "Tab 7").tabs("url", 6, "./lab1.php").tabs("load", 6);
+    </script>
+</body>
+</html>

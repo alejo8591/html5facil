@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Probando Compatibilidad del Navegador con respecto a la API</title>
+    <script type="text/javascript">
+        if(navigator.geolocation){
+            document.getElementById("supportNav").innerHTML = "HTML5 API - Geolocation: Es soportado.";
+        }else{
+            document.getElementById("supportNav").innerHTML = "HTML5 API - Geolocation: No es soportado, vamos no se resista m‡s al cambio y la evoluci—n.";
+        }       
+    </script>
+</head>
+<body>
+    <div id="supportNav"></div>
+</body>
+</html>

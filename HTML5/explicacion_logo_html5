@@ -1,0 +1,164 @@
+Introducción
+
+Para nadie es un secreto que HTML5 es la unión de varias API's que a través del tiempo maduraron a tal punto, que el grupo que se hace llamar "whatwg" conformado por varios grandes de la industria tecnológica, anunciaron la evolución de la quinta revisión del conocido y en algún momento considerado muerto HTML. 
+Canvas se puede describir escuetamente como aquel lienzo de mapa de bits (bitmapped) de la pantalla que se deja manipular con JavaScript, Como así? Canvas vuelve a dibujar el mapa de bits de la pantalla en cada fotograma utilizando la llamada API Canvas de JavaScript. Como programador (Posición muy discutida con los diseñadores) de Front-End, su trabajo es la creación de la visualización en pantalla; cada cuadro se debe representar de manera que los pixeles se mostrarán correctamente.
+
+
+Contexto
+
+Canvas incluye un contexto en 2D que le permite dibujar y dar forma a elementos, texto e imágenes directamente en pantalla, en un área definida del navegador. Puede aplicar colores, rotaciones, transparencias alfa, manipulación de píxeles, varios tipos de líneas, curvas, cajas y rellenos para trabajar sobre la forma. En esta ocasión daremos paso al uso de este API dibujando a través de Javascript básico y sin uso de jQuery o algún framework existente de JavaScript, Ah! claro está! si lo quiere complicar seria un gusto!
+
+
+
+Implementación y consideraciones
+
+Él logo es producido por seis partes dibujadas, hay que tener en cuenta que en las coordenadas, el primer número es la distancia desde el borde izquierdo de la etiqueta canvas y el segundo número es la distancia desde el borde superior del mismo canvas definido.
+Todo lo que se dibuja se realiza utilizando métodos y propiedades aplicados a la variable spot manteniendo el contexto 2D de canvas. El color para cualquier operación de llenado posterior se establece mediante la asignación de un color a la propiedad fillStyle de canvas. Las formas se producen utilizando los metodos path. Por ejemplo el siguiente conjunto de declaraciones señala la forma de cinco caras de color naranja a partir de la esquina inferior izquierda este es el fondo del logo:
+Código :
+spot.fillStyle = "#E34C26";
+spot.beginPath();
+spot.moveTo(39, 250);
+spot.lineTo(17, 0);
+spot.lineTo(262, 0);
+spot.lineTo(239, 250);
+spot.lineTo(139, 278);
+spot.closePath();
+spot.fill();
+
+El texto "HTML" del logo es dibujado mediante el método fillText y el color es tratado con fillStyle. Otra de las propiedades es font; esta propiedad puede contener el tamaño del texto y las fuentes que pueden ser una o más. El propósito de incluir más de una fuente es ofrecer opciones para el navegador, si la primera fuente no está disponible en el equipo que ejecuta el navegador. Durante la investigación encontre que la fuente que más se parece a la utilizada en el logo es Gill Sans Ultra Bold, le aconsejo que la consiga para que vea el resultado del experimento, y la implemento de la siguiente manera: 
+Código :
+var fontfamily = "65px 'Gill Sans Ultra Bold', sans-serif";
+Despues de estos parámetros color, tamaño y tipo de fuente es necesario la ubicación en nuestro canvas, recuerde que el objeto canvas es nuestro lienzo: 
+Código :
+spot.fillText("HTML", 31,60);
+Las posiciones se especifican mediante las distancias desde un punto de origen. Para canvas 2D (Porque también se puede hacer 3D con WebGL pero es otro tema), dos coordenadas son necesarias: la primera coordenada, que regula la horizontal, a menudo llamada la "X" y la segunda coordenada, que regula la vertical, llamada la ordenada, representada por la "Y". Un hecho molesto es que al dibujar en las pantallas el eje "Y" se invierte para la vertical se mide desde la parte superior de canvas y la horizontal se mide desde la izquierda. Esto significa que el punto (100,200) está más abajo en la pantalla que el punto (100,100). Ahora la situación es que cuando se dibuja las letras del logotipo "HTML" tiene que moverse hacia abajo de la pantalla lo que requiere es una transformación mediante traslación.
+La traslación se realiza justo en la vertical. La cantidad de traslación se almacena en una variable con nombré offsety:
+Código :
+var offsety = 80;
+.......
+spot.fillText("HTML", 31, 60);
+spot.translate(0, offsety);
+
+Construyendo el Logo
+
+En este apartado nos disponemos a ver todo el código, para plasmar en su editor, y luego verlo en el navegador, si tiene problemas con IE le recomiendo revisar el siguiente link .
+
+primero vamos con la parte JavaScript que recomiendo (exijo) poner el script en la etiqueta <head> en lo posible estará los más documentado posible: 
+Código :
+<script language="javascript">
+    /*seleccionando la fuente principal y auxiliar junto con el valor del tamaño inicial */
+    var fontfamily = "65px 'Gill Sans Ultra Bold', sans-serif";
+    //valor de la escala inicial
+    var factorvalue = 1;
+   //declaracion de la variable principal - global
+    var spot;
+
+   //Funcion principal 
+    function initiate(){
+       /*declaración de la variable y poniendola en contexto canvas 2D */
+        spot = document.getElementById('canvas').getContext('2d');
+       //estableciendo la fuente a dibujar con canvas
+        spot.font= fontfamily;
+       //salvando las coordenadas iniciales
+        spot.save();
+       //Invocando la funcion que dibuja
+        drawLogo();     
+    }
+
+    //funcion que hace el trabajo sucio
+    function drawLogo(){
+       /* cantidad para ajustar las coordenadas para dibujar el fondo o escudo del logo. */
+        var offsety = 80;
+        //reniciar el estado de las coordenas
+        spot.restore();
+        //se utiliza para cuando le hacemos zoom al logo
+        spot.save();
+        //limpiando el canvas
+        spot.clearRect(0,0,600,400);
+        /*escalando horizontal y verticalmente los valores del dimensionamiento */
+        spot.scale(factorvalue, factorvalue);
+        //dibujando la palabra HTML
+        spot.fillText("HTML", 31,60);
+       //desplazando hacia abajo la forma de dibujar en pantalla 
+        spot.translate(0, offsety);
+
+         //5 caras de color naranja
+          spot.fillStyle = "#E34C26";
+         //inciando path
+        spot.beginPath();
+        /* moviendo a la posición indicada: abajo a la izquierda */
+        spot.moveTo(39, 250);
+        spot.lineTo(17, 0);
+        spot.lineTo(262, 0);
+        spot.lineTo(239, 250);
+        spot.lineTo(139, 278);
+        spot.closePath();
+         //rellenar con el color indicado
+        spot.fill();
+       
+         // parte naranja del fondo  a mano derecha más ligero 
+        //color oficial naranja oscuro
+        spot.fillStyle = "#F06529";
+        spot.beginPath();
+        spot.moveTo(139, 257);
+        spot.lineTo(220, 234);
+        spot.lineTo(239, 20);
+        spot.lineTo(139, 20);
+        spot.closePath();        
+        spot.fill();
+          
+       //Color gris, lado izquierdo del 5
+        spot.fillStyle = "#EBEBEB";
+        spot.beginPath();
+        spot.moveTo(139, 113);
+        spot.lineTo(98, 113);
+        spot.lineTo(96, 82);
+        spot.lineTo(139, 82);
+        spot.lineTo(139, 51);
+        spot.lineTo(62, 51);
+        spot.lineTo(70, 144);
+        spot.lineTo(139, 144);
+        spot.closePath();
+        spot.fill();
+
+         //regresando al punto medio del canvas   
+        spot.beginPath();
+        spot.moveTo(139,193);
+        spot.lineTo(105,184);
+        spot.lineTo(103,159);
+        spot.lineTo(72, 159);
+        spot.lineTo(76, 207);
+        spot.lineTo(139, 225);
+        spot.closePath();
+        spot.fill();
+        
+        //blanco, lado derecho del 5        
+        spot.fillStyle="#FFFFF";
+        spot.beginPath();
+        spot.moveTo(139,113);
+        spot.lineTo(139,144);
+        spot.lineTo(177,144);
+        spot.lineTo(173, 184);
+        spot.lineTo(139,193);
+        spot.lineTo(139, 225);
+        spot.lineTo(202, 207);
+        spot.lineTo(210, 113);
+        spot.closePath();
+        spot.fill();
+       
+        //moviéndose al punto medio del canvas
+        spot.beginPath();
+        spot.moveTo(139,51);
+        spot.lineTo(139,82);
+        spot.lineTo(213,82);
+        spot.lineTo(216,51);
+        spot.closePath();
+        spot.fill();     
+    }
+    </script>
+
+Y la parte HTML la más compleja de todas   
+Código :
+<canvas id="canvas" width="600" height="400">
+    su browser no soporta canvas que tristeza..!! 
+</canvas>

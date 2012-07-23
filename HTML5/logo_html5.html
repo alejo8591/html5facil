@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Canvas => logo HTML5 => transformación de coordenadas</title>
+    
+<script language="javascript">
+    /*seleccionando la fuente principal y auxiliar junto con el valor del tamaño inicial */
+    var fontfamily = "65px 'Gill Sans Ultra Bold', sans-serif";
+    //valor de la escala inicial
+    var factorvalue = 1;
+   //declaracion de la variable principal - global
+    var spot;
+
+   //Funcion principal 
+    function initiate(){
+       /*declaración de la variable y poniendola en contexto canvas 2D */
+        spot = document.getElementById('canvas').getContext('2d');
+       //estableciendo la fuente a dibujar con canvas
+        spot.font= fontfamily;
+       //salvando las coordenadas iniciales
+        spot.save();
+       //Invocando la funcion que dibuja
+        drawLogo();     
+    }
+
+    //funcion que hace el trabajo sucio
+    function drawLogo(){
+       /* cantidad para ajustar las coordenadas para dibujar el fondo o escudo del logo. */
+        var offsety = 80;
+        //reniciar el estado de las coordenas
+        spot.restore();
+        //se utiliza para cuando le hacemos zoom al logo
+        spot.save();
+        //limpiando el canvas
+        spot.clearRect(0,0,600,400);
+        /*escalando horizontal y verticalmente los valores del dimensionamiento */
+        spot.scale(factorvalue, factorvalue);
+        //dibujando la palabra HTML
+        spot.fillText("HTML", 31,60);
+       //desplazando hacia abajo la forma de dibujar en pantalla 
+        spot.translate(0, offsety);
+
+         //5 caras de color naranja
+          spot.fillStyle = "#E34C26";
+         //inciando path
+        spot.beginPath();
+        /* moviendo a la posición indicada: abajo a la izquierda */
+        spot.moveTo(39, 250);
+        spot.lineTo(17, 0);
+        spot.lineTo(262, 0);
+        spot.lineTo(239, 250);
+        spot.lineTo(139, 278);
+        spot.closePath();
+         //rellenar con el color indicado
+        spot.fill();
+       
+         // parte naranja del fondo  a mano derecha más ligero 
+        //color oficial naranja oscuro
+        spot.fillStyle = "#F06529";
+        spot.beginPath();
+        spot.moveTo(139, 257);
+        spot.lineTo(220, 234);
+        spot.lineTo(239, 20);
+        spot.lineTo(139, 20);
+        spot.closePath();        
+        spot.fill();
+          
+       //Color gris, lado izquierdo del 5
+        spot.fillStyle = "#EBEBEB";
+        spot.beginPath();
+        spot.moveTo(139, 113);
+        spot.lineTo(98, 113);
+        spot.lineTo(96, 82);
+        spot.lineTo(139, 82);
+        spot.lineTo(139, 51);
+        spot.lineTo(62, 51);
+        spot.lineTo(70, 144);
+        spot.lineTo(139, 144);
+        spot.closePath();
+        spot.fill();
+
+         //regresando al punto medio del canvas   
+        spot.beginPath();
+        spot.moveTo(139,193);
+        spot.lineTo(105,184);
+        spot.lineTo(103,159);
+        spot.lineTo(72, 159);
+        spot.lineTo(76, 207);
+        spot.lineTo(139, 225);
+        spot.closePath();
+        spot.fill();
+        
+        //blanco, lado derecho del 5        
+        spot.fillStyle="#FFFFF";
+        spot.beginPath();
+        spot.moveTo(139,113);
+        spot.lineTo(139,144);
+        spot.lineTo(177,144);
+        spot.lineTo(173, 184);
+        spot.lineTo(139,193);
+        spot.lineTo(139, 225);
+        spot.lineTo(202, 207);
+        spot.lineTo(210, 113);
+        spot.closePath();
+        spot.fill();
+       
+        //moviéndose al punto medio del canvas
+        spot.beginPath();
+        spot.moveTo(139,51);
+        spot.lineTo(139,82);
+        spot.lineTo(213,82);
+        spot.lineTo(216,51);
+        spot.closePath();
+        spot.fill();     
+    }
+    //funcion para dar escala al logo
+    function changescale(val){
+        factorvalue = val/100;
+        drawLogo();
+    }
+    </script>
+</head>
+
+<body onload="initiate();">
+<canvas id="canvas" width="1000" height="400">
+    su browser no soporta este ejemplo
+</canvas><br />
+<div>
+    <h3>Porcentaje de Transformación de coordenadas</h3>
+    <input id="slide" type="range" min="0" max="100" value="100" onChange="changescale(this.value)" step="10" />
+</div>
+</body>
+</html>
