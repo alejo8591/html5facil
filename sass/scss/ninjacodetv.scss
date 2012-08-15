@@ -1,0 +1,59 @@
+@import "cross_browser";
+body{
+	color: #F9F9F9;
+	font-family: Arial, Monaco;
+	font-size: 80%;
+	line-height: 1.5;
+	background-color: #333;
+}
+header{
+	@include rounded_borders(#333);
+	background-color: #DBDBDB;
+	h1{
+		color: #333;
+		padding: 2px 5px;
+	}
+}
+nav{
+	a{
+		color: #E5E5E5;
+		text-decoration: none;
+	}
+	a:visited{
+		color: #CCC;
+	}
+	a:active{
+		color: #EAEAEA;
+	}
+	a:hover{
+		color: #FFF;
+	}
+	margin:5px 5px;
+	padding: 4px 4px;
+}
+section{
+	article{
+		@include rounded_borders(#333);
+		color: #F4F4F4;
+		background-color: #7F7F7F;
+		h1{
+			color: #e0a934;
+			padding: 5px 5px;
+			margin: 5px 5px;
+		}
+		p{
+			padding: 5px 5px; 
+		}
+	}
+}
+footer{
+	@include rounded_borders(#333);
+	text-align: center;
+	background-color: #DBDBDB;
+	color: #e0a934;
+	span{
+		color: #333;
+		margin: 10px 20px;
+		padding: 10px 5px;
+	}
+}
